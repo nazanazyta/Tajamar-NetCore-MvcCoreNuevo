@@ -1,0 +1,43 @@
+﻿
+@{ 
+    ViewData["Title"] = "CochesAsincronos";
+}
+
+@section scripts{ 
+    <script>
+        $(document).ready(function () {
+            //UTILIZAMOS EL MÉTODO LOAD DE UN OBJETO
+            //DONDE DESEEMOS DIBUJAR LA VISTA PARCIAL
+            //$(objeto).load("GetVistaParcial")
+            $("#botoncoches").click(function () {
+                //  /CONTROLLER/VISTAPARCIAL
+                $("#capacoches").load("/Coches/GetCochesPartial");
+            });
+
+            $("#botonbuscar").click(function () {
+                var id = $("#cajaid").val();
+                var request = "/Coches/GetDetallesPartial/" + id;
+                //var request = "/Coches/GetDetallesPartial?id=" + id;
+                $("#capacar").load(request);
+            });
+        });
+    </script>
+}
+
+<h1>Coches Asincronos</h1>
+
+<label>Id Coche: </label>
+<input type="text" id="cajaid" class="form-control" />
+<button type="button" id="botonbuscar" class="btn btn-success">
+    Buscar coche
+</button>
+
+<div id="capacar" style="background-color: aqua"></div>
+
+<!---->
+
+<button type="button" id="botoncoches">
+    Mostrar coches
+</button>
+
+<div id="capacoches" style="background-color: yellow"></div>
