@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MvcCoreNuevo.Models;
+using MvcCoreNuevo.Repositories;
 
 namespace MvcCoreNuevo.Controllers
 {

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MvcCoreNuevo.Models.VistaDept>
+
+@{
+    ViewData["Title"] = "PaginarVistaDeptGrupo";
+}
+
+<h1>Paginar Vista Dept Grupo</h1>
+
+@Html.Raw(ViewData["paginas"])
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Posicion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Localidad)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posicion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Localidad)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

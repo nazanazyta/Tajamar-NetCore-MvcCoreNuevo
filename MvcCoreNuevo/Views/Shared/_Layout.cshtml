@@ -28,17 +28,21 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <partial name="_PartialMenuUsuario" />
-                <li class="nav-item">
+                @*<li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
+                </li>*@
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ejemplos</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ejemplos</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <a class="dropdown-item"
                            asp-controller="Coches"
                            asp-action="Index">Coches Ajax</a>
+                        <a class="dropdown-item"
+                           asp-controller="Departamentos"
+                           asp-action="Index">Departamentos</a>
                     </div>
                 </li>
+                @await Component.InvokeAsync("MenuDepartamentos") 
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
