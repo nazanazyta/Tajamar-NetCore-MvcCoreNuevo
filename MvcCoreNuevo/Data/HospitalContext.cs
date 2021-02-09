@@ -15,5 +15,7 @@ namespace MvcCoreNuevo.Data
         public DbSet<Departamento> Departamentos { get; set; }
 
         public DbSet<VistaDept> VistaDepartamentos { get; set; }
+
+        public DbSet<Trabajador> Trabajadores { get; set; }
     }
 }

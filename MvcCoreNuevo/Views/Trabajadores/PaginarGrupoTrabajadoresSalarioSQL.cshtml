@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MvcCoreNuevo.Models.Trabajador>
+
+@{
+    ViewData["Title"] = "PaginarGrupoTrabajadoresSalarioSQL";
+}
+
+<h1>PaginarGrupoTrabajadoresSalarioSQL</h1>
+
+<form method="post">
+    <label>Salario</label>
+    <input type="text" name="salario" class="form-control" />
+    <button type="submit" class="btn btn-info">Filtrar</button>
+</form>
+
+@{
+    int numregis = (int)ViewData["numregis"];
+    int numpag = 1;
+}
+
+<ul class="list-group list-group-horizontal">
+    @for (int i = 1; i <= numregis; i += 4)
+    {
+        <li class="list-group-item">
+            <a asp-controller="Trabajadores"
+               asp-action="PaginarGrupoTrabajadoresSalarioSQL"
+               asp-route-posicion="@i" asp-route-salario="">Página @numpag</a>
+        </li>
+        numpag++;
+    }
+</ul>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTrabajador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salario)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdTrabajador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trabajo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salario)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

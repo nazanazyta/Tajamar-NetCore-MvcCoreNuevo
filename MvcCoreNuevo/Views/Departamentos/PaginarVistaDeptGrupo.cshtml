@@ -6,7 +6,18 @@
 
 <h1>Paginar Vista Dept Grupo</h1>
 
-@Html.Raw(ViewData["paginas"])
+@*@Html.Raw(ViewData["paginas"])*@
+
+@for (int i = 1; i <= ViewBag.totalregistros; i += 2)
+{
+    <a asp-action="PaginarVistaDeptGrupo"
+       asp-controller="Departamentos"
+       asp-route-posicion="@i">
+        Página @ViewBag.numeropagina
+    </a>
+    ViewBag.numeropagina++;
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -25,21 +36,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Posicion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Localidad)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Posicion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Localidad)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
