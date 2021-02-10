@@ -1,49 +1,51 @@
 ﻿@model IEnumerable<MvcCoreNuevo.Models.Trabajador>
 
 @{
-    ViewData["Title"] = "PaginarGrupoTrabajadoresSQl";
-}
-
-<h1>PaginarGrupoTrabajadoresSQl</h1>
-
-<form asp-controller="Trabajadores" asp-action="PaginarGrupoTrabajadoresSQL">
-    <label>Salario</label>
-    <input type="text" name="salario" class="form-control" />
-    <button type="submit" class="btn btn-info">Filtrar</button>
-</form>
-
-@{ 
     int numregis = (int)ViewData["numregis"];
     int numpag = 1;
 }
 
+<h1>Paginar Trabajadores SQl</h1>
+
+<form method="post">
+    <label>Salario</label>
+    <input type="text" name="salario" class="form-control" required /><br />
+    <button type="submit" class="btn btn-info">Filtrar datos</button>
+</form>
+<br />
+<a asp-controller="Trabajadores" asp-action="PaginarGrupoTrabajadoresSQL">Quitar filtros</a>
+
 <ul class="list-group list-group-horizontal">
     @for (int i = 1; i <= numregis; i += 4)
     {
-        <li class="list-group-item">
-            <a asp-controller="Trabajadores"
-               asp-action="PaginarGrupoTrabajadoresSQL"
-               asp-route-posicion="@i" asp-route-salario="@ViewData["salario"]">Página @numpag</a>
-        </li>
+        if (ViewData["salario"] == null)
+        {
+            <li class="list-group-item">
+                <a asp-controller="Trabajadores"
+                   asp-action="PaginarGrupoTrabajadoresSQL"
+                   asp-route-posicion="@i">@numpag</a>
+            </li>
+        }
+        else
+        {
+            <li class="list-group-item">
+                <a asp-controller="Trabajadores"
+                   asp-action="PaginarGrupoTrabajadoresSQL"
+                   asp-route-posicion="@i"
+                   asp-route-salario="@ViewData["salario"]">@numpag</a>
+            </li>
+        }
         numpag++;
     }
 </ul>
 
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdTrabajador)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trabajo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salario)
-            </th>
+            <th>IdTrabajador</th>
+            <th>Apellido</th>
+            <th>Trabajo</th>
+            <th>Salario</th>
         </tr>
     </thead>
     <tbody>

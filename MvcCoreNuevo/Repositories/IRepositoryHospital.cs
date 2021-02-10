@@ -24,6 +24,6 @@ namespace MvcCoreNuevo.Repositories
 
         List<Trabajador> GetGrupoTrabajadoresSQL(int posicion, ref int numregis);
 
-        List<Trabajador> GetGrupoTrabajadoresSalarioSQL(int posicion, int salario, ref int numregis);
+        List<Trabajador> GetGrupoTrabajadoresSQL(int posicion, int salario, ref int numregis);
     }
 }

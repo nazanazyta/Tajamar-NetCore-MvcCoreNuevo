@@ -65,9 +65,8 @@ using System.Threading.Tasks;
 
 //CREATE VIEW trabajadorespaginacion
 //AS
-//    SELECT
-//	CAST(ISNULL(ROW_NUMBER() OVER(ORDER BY ID), 0) AS INT) AS POSICION
-//   , trabajadores.* FROM trabajadores
+//  SELECT ROW_NUMBER() OVER(ORDER BY APELLIDO) AS POSICION
+//  , trabajadores.* FROM trabajadores
 //GO
 #endregion
 
@@ -75,20 +74,34 @@ using System.Threading.Tasks;
 //CREATE PROCEDURE paginargrupotrabajadores
 //(@POSICION INT, @REGISTROS INT OUT)
 //AS
-//    SELECT @REGISTROS = COUNT(ID) FROM trabajadorespaginacion
+//  SELECT @REGISTROS = COUNT(ID) FROM trabajadorespaginacion
 //	SELECT ID, APELLIDO, TRABAJO, SALARIO FROM trabajadorespaginacion
 //	WHERE POSICION >= @POSICION AND POSICION < (@POSICION + 4)
 //GO
 
+//DECLARE @NUMERO INT
+//EXEC paginargrupotrabajadores 1, @NUMERO
+//--
+//DECLARE @NUMERO INT
+//EXEC paginargrupotrabajadores 5, @NUMERO
+
 //CREATE PROCEDURE paginargrupotrabajadoressalario
 //(@POSICION INT, @SALARIO INT, @REGISTROS INT OUT)
 //AS
-//    SELECT @REGISTROS = COUNT(ID) FROM trabajadorespaginacion
-//		WHERE SALARIO >= @SALARIO
-//	SELECT ID, APELLIDO, TRABAJO, SALARIO FROM trabajadorespaginacion
-//	WHERE POSICION >= @POSICION AND POSICION < (@POSICION + 3)
-//		AND SALARIO >= @SALARIO
+//    SELECT @REGISTROS = COUNT(ID) FROM trabajadores
+//	WHERE SALARIO >= @SALARIO
+//	SELECT * FROM
+//	(SELECT ROW_NUMBER() OVER(ORDER BY APELLIDO) AS POSICION,
+//   trabajadores.* FROM trabajadores
+//	WHERE SALARIO >= @SALARIO) CONSULTA
+//    WHERE(POSICION >= @POSICION AND POSICION<(@POSICION + 3))
 //GO
+
+//DECLARE @NUMERO INT
+//EXEC paginargrupotrabajadoressalario 1, 200000, @NUMERO
+//--
+//DECLARE @NUMERO INT
+//EXEC paginargrupotrabajadoressalario 4, 200000, @NUMERO
 #endregion
 
 namespace MvcCoreNuevo.Repositories
@@ -169,7 +182,7 @@ namespace MvcCoreNuevo.Repositories
             return trabajadores;
         }
 
-        public List<Trabajador> GetGrupoTrabajadoresSalarioSQL
+        public List<Trabajador> GetGrupoTrabajadoresSQL
             (int posicion, int salario, ref int numregis)
         {
             String sql = "paginargrupotrabajadoressalario @posicion, @salario, @registros out";
@@ -178,7 +191,7 @@ namespace MvcCoreNuevo.Repositories
             SqlParameter pamreg = new SqlParameter("@registros", -1);
             pamreg.Direction = System.Data.ParameterDirection.Output;
             List<Trabajador> trabajadores = this.Context.Trabajadores
-                .FromSqlRaw<Trabajador>(sql, pampos, pamsal, pamreg).ToList();
+                .FromSqlRaw(sql, pampos, pamsal, pamreg).ToList();
             numregis = Convert.ToInt32(pamreg.Value);
             return trabajadores;
         }

@@ -10,7 +10,7 @@ namespace MvcCoreNuevo.Controllers
 {
     public class TrabajadoresController : Controller
     {
-        private IRepositoryHospital repo;
+        IRepositoryHospital repo;
 
         public TrabajadoresController(IRepositoryHospital repo)
         {
@@ -29,42 +29,32 @@ namespace MvcCoreNuevo.Controllers
             {
                 posicion = 1;
             }
+            List<Trabajador> trabajadores;
             if (salario == null)
             {
-                salario = 0;
+                trabajadores =
+                    this.repo.GetGrupoTrabajadoresSQL(posicion.Value, ref numregis);
             }
-            List<Trabajador> trabajadores =
-                this.repo.GetGrupoTrabajadoresSalarioSQL(posicion.Value, salario.Value, ref numregis);
+            else
+            {
+                trabajadores =
+                    this.repo.GetGrupoTrabajadoresSQL(posicion.Value, salario.Value, ref numregis);
+                ViewData["salario"] = salario.Value;
+            }
             ViewData["numregis"] = numregis;
-            ViewData["salario"] = salario.Value;
             return View(trabajadores);
         }
 
-        //[HttpPost]
-        //public IActionResult PaginarGrupoTrabajadoresSQl(int? posicion, int? salario)
-        //{
-        //    int numregis = 0;
-        //    if (posicion == null)
-        //    {
-        //        posicion = 1;
-        //    }
-        //    if (salario == null)
-        //    {
-        //        salario = 0;
-        //        List<Trabajador> trabajadores =
-        //            this.repo.GetGrupoTrabajadoresSQL(posicion.Value, ref numregis);
-        //        ViewData["numregis"] = numregis;
-        //        ViewData["salario"] = salario;
-        //        return View(trabajadores);
-        //    }
-        //    else
-        //    {
-        //        List<Trabajador> trabajadores =
-        //            this.repo.GetGrupoTrabajadoresSalarioSQL(posicion.Value, salario.Value, ref numregis);
-        //        ViewData["numregis"] = numregis;
-        //        ViewData["salario"] = salario.Value;
-        //        return View(trabajadores);
-        //    }
-        //}
+        [HttpPost]
+        public IActionResult PaginarGrupoTrabajadoresSQl(int salario)
+        {
+            int numregis = 0;
+            int posicion = 1;
+            List<Trabajador> trabajadores =
+                this.repo.GetGrupoTrabajadoresSQL(posicion, salario, ref numregis);
+            ViewData["numregis"] = numregis;
+            ViewData["salario"] = salario;
+            return View(trabajadores);
+        }
     }
 }
